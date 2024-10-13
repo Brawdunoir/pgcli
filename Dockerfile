@@ -1,8 +1,5 @@
 FROM python:3.13.0-alpine3.19
 
-LABEL maintainer="yann.lacroix.dev@gmail.com"
-LABEL org.opencontainers.image.source="https://github.com/Brawdunoir/pgcli"
-
 RUN adduser -D -u 1000 pgcli
 USER pgcli
 
