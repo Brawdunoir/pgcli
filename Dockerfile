@@ -1,20 +1,17 @@
-FROM archlinux:base-20241006.0.268140
+FROM python:3.13.0-alpine3.19
 
-# Maintainer information
 LABEL maintainer="yann.lacroix.dev@gmail.com"
 LABEL org.opencontainers.image.source="https://github.com/Brawdunoir/pgcli"
 
-# Update the system, install packages, and clean up the package cache
-RUN pacman -Sy --noconfirm && \
-    pacman -S --noconfirm --needed \
-        pgcli \
-        python-typing_extensions && \
-    pacman -Sc --noconfirm && \
-    rm -rf /var/cache/pacman/pkg/* /tmp/*
-
-# # Set a non-root user for security
-RUN useradd -m -u 1000 pgcli
+RUN adduser -D -u 1000 pgcli
 USER pgcli
 
-# Default entrypoint or command (if you want to specify something)
+WORKDIR /home/pgcli
+
+COPY requirements.txt /tmp/requirements.txt
+
+RUN pip install --no-cache-dir --no-warn-script-location --user -r /tmp/requirements.txt
+
+ENV PATH=/home/pgcli/.local/bin:$PATH
+
 ENTRYPOINT ["pgcli"]
