@@ -63,7 +63,7 @@ jobs:
           load: true
           tags: ${{ env.TEST_TAG }}
 
-      - name: Test
+      - name: Test image
         run: |
           docker run --rm ${{ env.TEST_TAG }} --version | grep ${{ env.PGCLI_VERSION }}
 
