@@ -65,7 +65,7 @@ jobs:
 
       - name: Test
         run: |
-          docker run --rm ${{ env.TEST_TAG }} --version | grep ${{ .env.PGCLI_VERSION }}
+          docker run --rm ${{ env.TEST_TAG }} --version | grep ${{ env.PGCLI_VERSION }}
 
       - name: Build and push Docker image
         id: build-and-push
