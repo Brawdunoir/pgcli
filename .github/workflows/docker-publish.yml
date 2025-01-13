@@ -9,6 +9,7 @@ on:
 
 env:
   TEST_TAG: test
+  DOCKERHUB_USERNAME: brawdunoir
 
 jobs:
   build:
