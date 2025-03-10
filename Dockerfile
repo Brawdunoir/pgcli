@@ -1,4 +1,4 @@
-FROM python:3.13.1-alpine3.19
+FROM python:3.13.2-alpine3.21
 
 RUN apk add --no-cache postgresql-client && \
     adduser -D -u 1000 pgcli
