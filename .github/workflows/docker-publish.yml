@@ -2,14 +2,13 @@ name: Build and Push Docker Image
 
 on:
   push:
-    branches: ["main"]
-    tags: ["*.*.*"]
-  pull_request:
-    branches: ["main"]
+    tags:
+      - 'v[0-9]+.[0-9]+.[0-9]+'  # tag format: vX.X.X
+  workflow_dispatch:     # 手动触发（方便测试）
 
 env:
   TEST_TAG: test
-  DOCKERHUB_USERNAME: brawdunoir
+  DOCKERHUB_USERNAME: zeroleo12345
 
 jobs:
   build:
@@ -33,7 +32,6 @@ jobs:
         with:
           images: |
             ${{ env.DOCKERHUB_USERNAME }}/${{ github.event.repository.name }}
-            ghcr.io/${{ github.repository }}
           tags: |
             type=ref,event=pr
             type=semver,pattern={{version}},value=${{ env.PGCLI_VERSION }}
@@ -43,16 +41,7 @@ jobs:
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@f95db51fddba0c2d1ec667646a06c2ce06100226 # v3.0.0
 
-      - name: Log into GitHub Container Registry
-        if: github.event_name != 'pull_request'
-        uses: docker/login-action@9780b0c442fbb1117ed29e0efdff1e18412f7567 # v3.3.0
-        with:
-          registry: ghcr.io
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
-
       - name: Log into Docker Hub
-        if: github.event_name != 'pull_request'
         uses: docker/login-action@9780b0c442fbb1117ed29e0efdff1e18412f7567 # v3.3.0
         with:
           username: ${{ env.DOCKERHUB_USERNAME }}
