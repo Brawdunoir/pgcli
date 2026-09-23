@@ -1,2 +1,2 @@
-pgcli==4.5.0
+pgcli==4.7.1
 psycopg[binary,pool]==3.3.6
